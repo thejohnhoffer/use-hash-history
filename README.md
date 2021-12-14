@@ -1,6 +1,6 @@
 # [Use Hash History](https://www.npmjs.com/package/use-hash-history)
 
-This package as a workaround to [history](https://github.com/remix-run/history) [Issue #912](https://github.com/remix-run/history/issues/912).
+This package is a workaround to [history](https://github.com/remix-run/history) [Issue #912](https://github.com/remix-run/history/issues/912).
 
 Here is a [live demo on CodeSandbox](https://codesandbox.io/s/use-hash-history-esl4q),
 and here is a [minimal template](https://github.com/thejohnhoffer/test-history-router#history-router-test-template) of the below example.
@@ -42,5 +42,5 @@ const App = ({ hashType }) => {
 
 ## Contributing
 
-The published copy lives on a [publish branch](https://github.com/thejohnhoffer/use-hash-history/tree/publish).
+The published copy lives at [use-hash-history](https://github.com/thejohnhoffer/use-hash-history/).
 Make any pull request against the main branch.
