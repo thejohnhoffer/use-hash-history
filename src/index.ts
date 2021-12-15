@@ -70,10 +70,6 @@ const useHashHistory = ({
   const wrapListen = (fn: ListenAPI): ListenAPI => {
     return (listener) => {
       return fn(({ action, location }) => {
-        console.log({
-          i: location.pathname,
-          o: decodePathname(location).pathname,
-        });
         listener({
           action,
           location: decodePathname(location),
