@@ -1,32 +1,86 @@
-import { test } from "uvu";
+import { suite } from "uvu";
 import * as assert from "uvu/assert";
-import * as ENV from "./setup/env";
-
-// Thanks `@babel/register`
+import * as ENV from "./setup/env.js";
 import { useHashHistory } from "../src/index.ts";
-import { Example } from "../demo/example.tsx";
+
+const TestUseHistory = suite("test history hook");
 
 // Create and clean the DOM
-test.before(ENV.setup);
-test.after.each(ENV.reset);
+TestUseHistory.before.each(ENV.reset);
 
-test("Example renders", async () => {
-  const container = ENV.renderExample();
-
-  const result = container.innerHTML;
-  const expected = `<a href="#home">Go to #home</a> content`;
-  console.log({ result, expected });
-
-  assert.snapshot(result, expected);
+TestUseHistory("Example renders", async () => {
+  const { innerHTML } = ENV.renderExample({});
+  const expected = ENV.expectExample({});
+  assert.snapshot(innerHTML, expected);
 });
+
+const getTestData = ({ options, fn, pathList }) => {
+  const history = useHashHistory(options);
+  return {
+    fn: history[fn],
+    listen: history.listen,
+    input: "/" + pathList.join("/"),
+  };
+};
 
 /*
-test('sum', () => {
-  assert.type(math.sum, 'function');
-  assert.is(math.sum(1, 2), 3);
-  assert.is(math.sum(-1, -2), -3);
-  assert.is(math.sum(-1, 1), 0);
-});
-*/
+ * Roundtrip test of pathname update
+ */
+const testLocationPathname = async ({ fn, listen, input }) => {
+  return new Promise((resolve) => {
+    listen(({ location }) => {
+      resolve(location.pathname);
+    });
+    fn(input);
+  });
+};
 
-test.run();
+TestUseHistory(`hashRoot="" push`, async () => {
+  const data = getTestData({
+    options: {
+      hashRoot: "",
+    },
+    fn: "push",
+    pathList: ["test"],
+  });
+  const result = await testLocationPathname(data);
+  assert.is(result, "/test");
+});
+
+TestUseHistory(`hashRoot="" replace`, async () => {
+  const data = getTestData({
+    options: {
+      hashRoot: "",
+    },
+    fn: "replace",
+    pathList: ["test"],
+  });
+  const result = await testLocationPathname(data);
+  assert.is(result, "/test");
+});
+
+TestUseHistory(`hashRoot="/" push`, async () => {
+  const data = getTestData({
+    options: {
+      hashRoot: "/",
+    },
+    fn: "push",
+    pathList: ["test"],
+  });
+  const result = await testLocationPathname(data);
+  assert.is(result, "/test");
+});
+
+TestUseHistory(`hashRoot="/" replace`, async () => {
+  const data = getTestData({
+    options: {
+      hashRoot: "/",
+    },
+    fn: "replace",
+    pathList: ["test"],
+  });
+  const result = await testLocationPathname(data);
+  assert.is(result, "/test");
+});
+
+TestUseHistory.run();
