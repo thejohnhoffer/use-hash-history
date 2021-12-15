@@ -7,7 +7,8 @@
     "build": "rm -rf build && tsc -b",
     "format": "prettier --ignore-path .eslintignore --write .",
     "test": "uvu tests -r tsm -r esm -r @babel/register -i setup",
-    "demo": "vite serve demo"
+    "publish": "yarn build && npm publish",
+    "demo": "vite serve demo --host"
   },
   "main": "build/index.js",
   "types": "build/index.d.ts",

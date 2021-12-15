@@ -1,4 +1,4 @@
-# [Use Hash History](https://www.npmjs.com/package/use-hash-history)
+# [Use Hash History](https://yarnpkg.com/package/use-hash-history)
 
 This package is a workaround to [history](https://github.com/remix-run/history) [Issue #912](https://github.com/remix-run/history/issues/912).
 

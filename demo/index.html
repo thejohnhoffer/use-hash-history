@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
 </head>
 <html>
   <body>
     <div id="index"></div>
     <script type="module">
-			import React from 'react';
-			import ReactDOM from 'react-dom';
-      import { getAllProps } from './ExampleProps';
-			import Example from './Example';
+      import React from "react";
+      import ReactDOM from "react-dom";
+      import { getAllProps } from "./ExampleProps";
+      import Example from "./Example";
 
-      const propEntries = [...getAllProps()]
-      const children = [...propEntries.map(([key, props]) => {
-        return React.createElement("div", {key: "d-"+key}, [
-          React.createElement('h3',{key: "h-"+key}, key),
-          React.createElement(Example, {...props, key}, null)
-        ]);
-      })];
-			const component = React.createElement("div", null, children);
-			const elem = document.getElementById('index');
-			ReactDOM.render(component, elem);
-		</script>
+      const propEntries = [...getAllProps()];
+      const children = [
+        ...propEntries.map(([key, props]) => {
+          return React.createElement("div", { key: "d-" + key }, [
+            React.createElement("h3", { key: "h-" + key }, key),
+            React.createElement(Example, { ...props, key }, null),
+          ]);
+        }),
+      ];
+      const component = React.createElement("div", null, children);
+      const elem = document.getElementById("index");
+      ReactDOM.render(component, elem);
+    </script>
   </body>
 </html>

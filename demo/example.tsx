@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { useHashHistory, useParsePath } from "../src/index";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
@@ -6,14 +6,10 @@ import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 // Types
 import type { Props } from "./exampleProps";
 
-const Example = ({
-  options
-} : Props) => {
-  const {
-    hashRoot = "", hashSlash = "/"
-  } = {window, ...options}
-  const opts = {hashRoot, hashSlash}
-  const history = useHashHistory(opts)
+const Example = ({ options }: Props) => {
+  const { hashRoot = "", hashSlash = "/" } = { window, ...options };
+  const opts = { hashRoot, hashSlash };
+  const history = useHashHistory(opts);
   return (
     <HistoryRouter history={history}>
       <Link to="/home">Go to #{hashRoot}home</Link>
@@ -23,6 +19,6 @@ const Example = ({
       </Routes>
     </HistoryRouter>
   );
-}
+};
 
-export default Example
+export default Example;
