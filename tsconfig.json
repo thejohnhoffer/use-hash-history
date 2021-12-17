@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "target": "esnext",
+    "noImplicitAny": true,
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "alwaysStrict": true,
     "declaration": true,
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "esnext",
+    "checkJs": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
