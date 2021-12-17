@@ -88,6 +88,7 @@ const useTranscoders = ({
   const encode = useParser([
     (t) => t.replace(/^\//, ""),
     (t) => hashRoot + t.replace(/\//g, hashSlash),
+    (t) => t.replace(/^\/\.\./g, ".."),
   ]);
   const escaped = escapeText(hashRoot);
   const decode = useParser([

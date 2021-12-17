@@ -103,4 +103,16 @@ TestUseHistory(`hashRoot="/" replace`, async () => {
   assert.is(result, "/test");
 });
 
+TestUseHistory(`hashRoot="/" push ../test`, async () => {
+  const data = getTestData({
+    options: {
+      hashRoot: "/",
+    },
+    fn: "push",
+    pathList: ["..", "test"],
+  });
+  const result = await testLocationPathname(data);
+  assert.is(result, "../test");
+});
+
 TestUseHistory.run();
