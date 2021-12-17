@@ -21,7 +21,7 @@ import { useHashHistory } from "use-hash-history";
 import { Routes, Route, Link } from "react-router-dom";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 
-const Example = ({ hashRoot }) => {
+const Example = ({ hashRoot = "" }) => {
   const history = useHashHistory({ hashRoot });
   return (
     <HistoryRouter history={history}>
