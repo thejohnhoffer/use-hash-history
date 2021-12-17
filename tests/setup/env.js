@@ -77,25 +77,29 @@ export function reset() {
 
 const makeTranscoder = ({ hashRoot, hashSlash }) => {
   return (list) => {
-    return [hashRoot]
-      .concat(
-        ...list.map((path, i) => {
-          const symbol = !i ? hashRoot : hashSlash;
-          return [symbol, path];
-        })
-      )
+    return list
+      .map((path, i) => {
+        const symbol = !i ? hashRoot : hashSlash;
+        return symbol + path;
+      })
       .join("");
   };
 };
 
 const expectHeader = ({ options, encodedPath }) => {
   const { hashRoot, hashSlash } = options;
-  const href = `#${hashRoot}${encodedPath}`;
-  return h("h3", `#${hashRoot}root${hashSlash}slash ${href}`);
+  const format = `${hashRoot}root${hashSlash}slash`;
+  return h("h3", `#${format} #${encodedPath}`);
 };
 
-const expectAnchor = ({ route, encoded }) => {
-  const href = `#/${route}`;
+const expectAnchor = ({ route, options }) => {
+  const encodeRelative = makeTranscoder({
+    hashSlash: options.hashSlash,
+    hashRoot: "",
+  });
+  const relative = encodeRelative(route.split("/"));
+  const encoded = options.hashRoot + relative;
+  const href = `#/${relative}`;
   return h("li", [h("a", { href }, `Go to #${encoded}`)]);
 };
 
@@ -110,18 +114,13 @@ export function expectExample(props) {
   };
   const options = { hashRoot, hashSlash };
   const encode = makeTranscoder(options);
-  const encodedRoutes = routes.map((route) => {
-    const list = route.split("/");
-    const encoded = encode(list);
-    return { encoded, route };
-  });
 
   const encodedPath = encode([""]);
   const header = expectHeader({ options, encodedPath });
   const anchors = h(
     "ul",
-    encodedRoutes.map((opts) => {
-      return expectAnchor(opts);
+    routes.map((route) => {
+      return expectAnchor({ route, options });
     })
   );
   return toHtml(h(MAIN, [header, anchors]).children);

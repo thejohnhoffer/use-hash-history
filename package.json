@@ -7,8 +7,8 @@
     "build": "rm -rf build && tsc -b",
     "format": "prettier --ignore-path .eslintignore --write .",
     "debug": "node --inspect-brk node_modules/uvu/bin.js -r tsm -r esm debug",
-    "test": "pnpm build && uvu -r tsm -r esm tests",
-    "demo": "pnpm build && vite serve demo --host",
+    "test": "uvu -r tsm -r esm tests",
+    "demo": "vite serve demo --host",
     "publish": "pnpm build && npm publish"
   },
   "main": "build/index.js",

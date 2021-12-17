@@ -14,6 +14,26 @@ TestUseHistory("Example renders", async () => {
   assert.snapshot(innerHTML, expected);
 });
 
+TestUseHistory("#a=1#b=2 renders", async () => {
+  const props = {
+    options: { hashRoot: "", hashSlash: "#" },
+    routes: ["home", "a=1/b=2"],
+  };
+  const { innerHTML } = ENV.renderExample(props);
+  const expected = ENV.expectExample(props);
+  assert.snapshot(innerHTML, expected);
+});
+
+TestUseHistory("#!/hello/world renders", async () => {
+  const props = {
+    options: { hashRoot: "!/", hashSlash: "/" },
+    routes: ["home", "hello", "hello/world"],
+  };
+  const { innerHTML } = ENV.renderExample(props);
+  const expected = ENV.expectExample(props);
+  assert.snapshot(innerHTML, expected);
+});
+
 const getTestData = ({ options, fn, pathList }) => {
   const history = useHashHistory(options);
   return {

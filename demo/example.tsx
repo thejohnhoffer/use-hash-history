@@ -1,14 +1,12 @@
 import React from "react";
-import { useHashHistory, useHashParser } from "../src/index.ts";
+import { useHashHistory } from "../src/index.ts";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { Routes, Route, Outlet, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 // Types
 import type { Props } from "./exampleProps";
 
 const Status = ({ prefix, path }) => {
-  //const here = useHashParser(options)(useLocation());
-  const here = true;
   return (
     <>
       {prefix}
