@@ -7,23 +7,25 @@
   <body>
     <div id="index"></div>
     <script type="module">
-      import React from "react";
-      import ReactDOM from "react-dom";
-      import { getAllProps } from "./ExampleProps";
       import Example from "./Example";
+      import { createElement } from "react";
+      import { createRoot } from "react-dom";
+      import { getAllProps } from "./ExampleProps";
+
+      const findIndex = (doc) => doc.getElementById("index");
+      const root = createRoot(findIndex(document));
+      const routes = ["home", "1/2/3"];
 
       const propEntries = [...getAllProps()];
       const children = [
         ...propEntries.map(([key, props]) => {
-          return React.createElement("div", { key: "d-" + key }, [
-            React.createElement("h3", { key: "h-" + key }, key),
-            React.createElement(Example, { ...props, key }, null),
-          ]);
+          return createElement(
+            ...["div", { key }],
+            createElement(Example, { ...props, routes }, null)
+          );
         }),
       ];
-      const component = React.createElement("div", null, children);
-      const elem = document.getElementById("index");
-      ReactDOM.render(component, elem);
+      root.render(createElement("div", null, children));
     </script>
   </body>
 </html>

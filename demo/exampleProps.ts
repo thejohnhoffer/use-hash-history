@@ -2,6 +2,7 @@ import type { HashOptions } from "../src/index";
 
 export type Props = {
   options?: HashOptions;
+  routes?: string[];
 };
 type ToProps = (options: HashOptions) => Props;
 type GetProps = (key: string, options: Props) => Props;
@@ -12,7 +13,6 @@ export const toProps: ToProps = (options) => {
 
 export const getAllOptions = () => {
   return new Map<string, HashOptions>([
-    ["default", {}],
     ["#hash/", { hashRoot: "" }],
     ["#/hash/", { hashRoot: "/" }],
     ["#!/hash/", { hashRoot: "!/" }],
