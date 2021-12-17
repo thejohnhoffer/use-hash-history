@@ -22,7 +22,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 
 const Example = ({ hashRoot }) => {
-  const history = useHistory({ hashRoot });
+  const history = useHashHistory({ hashRoot });
   return (
     <HistoryRouter history={history}>
       <Link to="/home">Go to #{hashRoot}home</Link>
