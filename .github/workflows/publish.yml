@@ -1,0 +1,39 @@
+
+   
+name: release
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    environment: release
+    if: github.repository == 'thejohnhoffer/use-hash-history'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.nodejs }}
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.24.1
+      - name: Install
+        run: |
+          pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Test
+        run: pnpm test
+      - name: Publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          node scripts/publish.js

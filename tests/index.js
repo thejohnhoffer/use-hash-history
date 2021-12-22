@@ -46,8 +46,8 @@ const testUseHistory = (key, options) => {
   TestUseHistory.after.each(() => {
     const { hashRoot = "" } = options;
     const historyHref = createPath(history.location);
-    const windowHref = window.location.hash.substr(1);
-    expect(historyHref.replace(/^\//, hashRoot)).toEqual(windowHref);
+    const windowHref = document.defaultView.location.hash.substr(1);
+    assert.is(historyHref.replace(/^\//, hashRoot), windowHref);
   });
 
   TestUseHistory(`push /test`, async () => {
