@@ -13,6 +13,7 @@ import type {
 } from "history";
 
 type VoidFn = () => void;
+type Pair = [string, string];
 type PathRenamer = (p: Pathname) => Pathname;
 type Hashable = Partial<Location> & { hash: Hash };
 type Pathable = Partial<Path> & { pathname: Pathname };
@@ -77,8 +78,10 @@ const useParser: UseParser = (list) => {
   return parser;
 };
 
-const escapeText = (s: string) => {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const transcoder = (root: Pair, slash: Pair, input: string) => {
+  const rest = input.substring(input.indexOf(root[0]) + root[0].length);
+  const prefix = input.match(/^\.\.\//) ? input.split(rest)[0] : root[1];
+  return prefix + rest.replaceAll(...slash);
 };
 
 const useTranscoders = ({
@@ -86,14 +89,10 @@ const useTranscoders = ({
   hashSlash = "/",
 }: TranscoderOptions): WrapperOptions => {
   const encode = useParser([
-    (t) => t.replace(/^\//, ""),
-    (t) => hashRoot + t.replace(/\//g, hashSlash),
-    (t) => t.replace(/^\/\.\./g, ".."),
+    (t) => transcoder(["/", hashRoot], ["/", hashSlash], t),
   ]);
-  const escaped = escapeText(hashRoot);
   const decode = useParser([
-    (t) => t.replace(new RegExp(`^${escaped}/?`), "/"),
-    (t) => t.split(hashSlash).join("/"),
+    (t) => transcoder([hashRoot, "/"], [hashSlash, "/"], t),
   ]);
 
   return {
