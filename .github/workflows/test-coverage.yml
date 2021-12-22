@@ -40,7 +40,7 @@ jobs:
       if: matrix.nodejs >= 17
       run: |
         c8 --src src pnpm test
-        ls -lha coverage
+        c8 report -r json
     - uses: codecov/codecov-action@v2
       if: matrix.nodejs >= 17
       with:
