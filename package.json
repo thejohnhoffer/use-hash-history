@@ -8,8 +8,7 @@
     "format": "prettier --ignore-path .eslintignore --write .",
     "debug": "node --inspect-brk node_modules/uvu/bin.js -r tsm -r esm debug",
     "test": "uvu -r tsm -r esm tests",
-    "demo": "vite serve demo --host",
-    "publish": "pnpm build && npm publish"
+    "demo": "vite serve demo --host"
   },
   "main": "build/index.js",
   "types": "build/index.d.ts",
