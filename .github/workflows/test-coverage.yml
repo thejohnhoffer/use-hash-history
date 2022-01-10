@@ -3,21 +3,21 @@ name: Test and Coverage
 on:
   push:
     branches:
-    - stable
-    - main
+      - stable
+      - main
   pull_request:
     branches:
-    - stable
-    - main
+      - stable
+      - main
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'     
+        description: "Log level"
         required: true
-        default: 'warning'
+        default: "warning"
 jobs:
   test:
-    environment: CI 
+    environment: CI
     name: Node.js v${{ matrix.nodejs }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -25,25 +25,25 @@ jobs:
       matrix:
         nodejs: [16, 17]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.nodejs }}
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.24.1
-    - name: Install
-      run: |
-        pnpm install
-        pnpm install -g c8@7
-    - name: Generate coverage
-      if: matrix.nodejs >= 17
-      run: |
-        c8 --src src pnpm test
-        c8 report -r json
-    - uses: codecov/codecov-action@v2
-      if: matrix.nodejs >= 17
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: coverage
-        verbose: true
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.nodejs }}
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.24.1
+      - name: Install
+        run: |
+          pnpm install
+          pnpm install -g c8@7
+      - name: Generate coverage
+        if: matrix.nodejs >= 17
+        run: |
+          c8 --src src pnpm test
+          c8 report -r json
+      - uses: codecov/codecov-action@v2
+        if: matrix.nodejs >= 17
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: coverage
+          verbose: true
