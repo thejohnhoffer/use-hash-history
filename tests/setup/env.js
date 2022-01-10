@@ -6,6 +6,8 @@ import Example from "../../demo/example.tsx";
 import { toHtml } from "hast-util-to-html";
 import { h } from "hastscript";
 
+export { warn } from "./warn.js";
+
 const MAIN = "main";
 const POP = "popstate";
 const BODY = `<body><${MAIN}></${MAIN}></body>`;
