@@ -12,9 +12,6 @@ type StateArgs = [any, string, (URL | string)?];
 type StateFunction = (..._: StateArgs) => unknown;
 type Scope = Partial<Omit<Window, number> & History>;
 
-// Old wrappers to remove in next major release
-import { useOldWrappers } from "./legacy";
-
 const parse = (fn: Parser, s = "") => {
   return `#${fn(s.slice(1))}`;
 };
@@ -59,7 +56,6 @@ const useWrappers = ({ encode, decode }: WrapperOptions) => {
   const encodeArgs = makeArgsEncoder(encode);
 
   return {
-    ...useOldWrappers({ encode, decode }),
     history: (globalHistory: History): History => {
       return new Proxy(globalHistory, {
         get: (_, prop) => {

@@ -1,11 +1,9 @@
 import { useParser } from "./parser";
 
 // Types
-import type { Hash, Location } from "history";
 import type { WrapperOptions } from "./wrapper";
 
 type Pair = [string, string];
-type Hashable = Partial<Location> & { hash: Hash };
 
 export type TranscoderOptions = {
   hashRoot?: string;
@@ -35,12 +33,4 @@ const useTranscoders = ({
   };
 };
 
-// Remove unused function in next major release
-const useHashParser = (options: TranscoderOptions) => {
-  const { decode } = useTranscoders(options);
-  return (path: Hashable) => {
-    return decode(path.hash.slice(1));
-  };
-};
-
-export { useTranscoders, useHashParser };
+export { useTranscoders };
