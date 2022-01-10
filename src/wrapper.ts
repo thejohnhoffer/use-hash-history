@@ -1,11 +1,13 @@
 import { parsePath, createPath } from "history";
 
-import type { Parser } from "./parser";
-
 export type WrapperOptions = {
   decode: Parser;
   encode: Parser;
 };
+
+export interface Parser {
+  (to: string): string;
+}
 
 type StateArgs = [any, string, (URL | string)?];
 type StateFunction = (..._: StateArgs) => unknown;
@@ -21,7 +23,7 @@ const getProperty = (scope: Scope, k: string | symbol) => {
 };
 
 type ProxyCore = "history" | "location";
-function inWrappers(x: string | symbol): x is ProxyCore {
+function inWrapper(x: string | symbol): x is ProxyCore {
   return (
     x in
     {
@@ -51,7 +53,7 @@ const makeArgsEncoder = (encode: Parser) => {
   };
 };
 
-const useWrappers = ({ encode, decode }: WrapperOptions) => {
+const useWrapper = ({ encode, decode }: WrapperOptions) => {
   const encodeArgs = makeArgsEncoder(encode);
 
   return {
@@ -72,4 +74,4 @@ const useWrappers = ({ encode, decode }: WrapperOptions) => {
   };
 };
 
-export { useWrappers, inWrappers, getProperty };
+export { useWrapper, inWrapper, getProperty };

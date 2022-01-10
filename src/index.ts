@@ -1,6 +1,6 @@
 import { createHashHistory } from "history";
 import { useTranscoders } from "./transcoder";
-import { useWrappers, inWrappers, getProperty } from "./wrapper";
+import { useWrapper, inWrapper, getProperty } from "./wrapper";
 
 import type { History } from "history";
 import type { TranscoderOptions } from "./transcoder";
@@ -14,11 +14,11 @@ const useHashHistory = ({
   window = document.defaultView!,
   ...config
 }: HashOptions = {}): History => {
-  const core = useWrappers(useTranscoders(config));
+  const core = useWrapper(useTranscoders(config));
   const windowProxy = new Proxy(window, {
     get: (_, prop) => {
       const v = getProperty(window, prop);
-      return inWrappers(prop) ? core[prop](v) : v;
+      return inWrapper(prop) ? core[prop](v) : v;
     },
   });
   return createHashHistory({ window: windowProxy });
