@@ -2,6 +2,7 @@ import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { _parse } from "../src/wrapper.ts";
 import { _useParser } from "../src/transcoder.ts";
+import { useTranscoders } from "../src/transcoder.ts";
 
 // Test parse of hash
 const testParser = (label, { hash }) => {
@@ -14,6 +15,14 @@ const testParser = (label, { hash }) => {
 
   TestParser(`test transcoder useParser`, () => {
     assert.is(hash, _useParser([noParser])(hash));
+  });
+
+  TestParser(`test transcoders`, () => {
+    const { decode, encode } = useTranscoders({
+      hashRoot: "",
+      hashSlash: "/",
+    });
+    assert.is(hash, _parse(encode, _parse(decode, hash)));
   });
 
   return TestParser;
