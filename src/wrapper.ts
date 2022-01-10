@@ -74,4 +74,5 @@ const useWrapper = ({ encode, decode }: WrapperOptions) => {
   };
 };
 
+export { parse as _parse };
 export { useWrapper, inWrapper, getProperty };
