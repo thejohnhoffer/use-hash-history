@@ -1,4 +1,5 @@
-import type { Parser, WrapperOptions } from "./wrapper";
+import type { WrapperOptions } from "./wrapper";
+import type { Parser } from "./wrapper";
 
 type Pair = [string, string];
 
