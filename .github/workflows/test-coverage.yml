@@ -40,7 +40,7 @@ jobs:
         if: matrix.nodejs >= 17
         run: |
           c8 --exclude demo pnpm test
-          c8 report -r json
+          c8 --exclude demo report -r json
       - uses: codecov/codecov-action@v2
         if: matrix.nodejs >= 17
         with:
