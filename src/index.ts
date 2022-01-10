@@ -2,7 +2,6 @@ import { createHashHistory } from "history";
 import { useTranscoders } from "./transcoder";
 import { useWrappers, inWrappers, getProperty } from "./wrapper";
 
-// Types
 import type { History } from "history";
 import type { TranscoderOptions } from "./transcoder";
 export type { TranscoderOptions } from "./transcoder";

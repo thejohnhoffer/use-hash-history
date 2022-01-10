@@ -1,11 +1,8 @@
-// Types
-type Renamer = (s: string) => string;
-
 export interface Parser {
   (to: string): string;
 }
 export interface UseParser {
-  (list: Renamer[]): Parser;
+  (list: Parser[]): Parser;
 }
 
 // Replace all / with custom slashes
