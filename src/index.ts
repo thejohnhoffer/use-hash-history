@@ -3,16 +3,6 @@ import { useTranscoders } from "./transcoder";
 import { useWrappers, inWrappers, getProperty } from "./wrapper";
 import { wrapWarn } from "./warn";
 
-// Exports to remove in next major release
-export { useHashParser } from "./transcoder";
-export { useWrappers } from "./wrapper";
-export { useParser } from "./parser";
-
-// Type exports to remove in next major release
-export type { GoAPI, ListenAPI } from "./legacy";
-export type { WrapperOptions } from "./wrapper";
-export type { UseParser, Parser } from "./parser";
-
 // Types
 import type { History } from "history";
 import type { TranscoderOptions } from "./transcoder";
