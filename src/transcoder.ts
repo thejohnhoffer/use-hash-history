@@ -41,4 +41,5 @@ const useTranscoders = ({
   };
 };
 
+export { useParser as _useParser };
 export { useTranscoders };
