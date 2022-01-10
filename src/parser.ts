@@ -1,4 +1,3 @@
-// Types
 type Renamer = (s: string) => string;
 
 export interface Parser {

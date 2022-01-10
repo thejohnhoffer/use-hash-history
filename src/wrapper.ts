@@ -1,6 +1,5 @@
 import { parsePath, createPath } from "history";
 
-// Types
 import type { Parser } from "./parser";
 
 export type WrapperOptions = {

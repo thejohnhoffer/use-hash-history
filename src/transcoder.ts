@@ -1,6 +1,5 @@
 import { useParser } from "./parser";
 
-// Types
 import type { WrapperOptions } from "./wrapper";
 
 type Pair = [string, string];

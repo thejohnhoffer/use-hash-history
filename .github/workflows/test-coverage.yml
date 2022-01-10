@@ -39,7 +39,7 @@ jobs:
       - name: Generate coverage
         if: matrix.nodejs >= 17
         run: |
-          c8 --src src pnpm test
+          c8 --exclude demo pnpm test
           c8 report -r json
       - uses: codecov/codecov-action@v2
         if: matrix.nodejs >= 17
