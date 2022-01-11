@@ -1,4 +1,3 @@
-import type { WrapperOptions } from "./wrapper";
 import type { Parser } from "./wrapper";
 
 type Pair = [string, string];
@@ -28,7 +27,7 @@ const useParser: UseParser = (list) => {
 const useTranscoders = ({
   hashRoot = "",
   hashSlash = "/",
-}: TranscoderOptions): WrapperOptions => {
+}: TranscoderOptions) => {
   const encode = useParser([
     (t) => transcoder(["/", hashRoot], ["/", hashSlash], t),
   ]);
