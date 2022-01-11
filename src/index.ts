@@ -3,11 +3,11 @@ import { useTranscoders } from "./transcoder";
 import { useWrapper, inWrapper, getProperty } from "./wrapper";
 
 import type { History } from "history";
-import type { TranscoderOptions } from "./transcoder";
-export type { TranscoderOptions } from "./transcoder";
 
-export type HashOptions = TranscoderOptions & {
+export type HashOptions = {
   window?: Window;
+  hashRoot?: string;
+  hashSlash?: string;
 };
 
 const useHashHistory = ({

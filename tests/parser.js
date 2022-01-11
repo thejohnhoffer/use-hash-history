@@ -1,7 +1,7 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { _parse } from "../src/wrapper.ts";
-import { useTranscoders } from "../src/transcoder.ts";
+import { useTranscoders } from "../src/index.ts";
 
 // Test parse of hash
 const testParser = (label, { hash }) => {
