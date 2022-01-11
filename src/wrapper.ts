@@ -1,14 +1,13 @@
 import { parsePath, createPath } from "history";
 
-export type WrapperOptions = {
-  decode: Parser;
-  encode: Parser;
-};
-
 export interface Parser {
   (to: string): string;
 }
 
+type WrapperOptions = {
+  decode: Parser;
+  encode: Parser;
+};
 type StateArgs = [any, string, (URL | string)?];
 type StateFunction = (..._: StateArgs) => unknown;
 type Scope = Partial<Omit<Window, number> & History>;

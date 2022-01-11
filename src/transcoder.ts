@@ -2,10 +2,6 @@ import type { Parser } from "./wrapper";
 
 type Pair = [string, string];
 
-interface UseParser {
-  (list: Parser[]): Parser;
-}
-
 export type TranscoderOptions = {
   hashRoot?: string;
   hashSlash?: string;
@@ -17,7 +13,7 @@ const transcoder = (root: Pair, slash: Pair, input: string) => {
   return prefix + rest.replaceAll(...slash);
 };
 
-const useParser: UseParser = (list) => {
+const useParser = (list: Parser[]) => {
   const parser = (hash: string): string => {
     return list.reduce((p, fn) => fn(p), hash);
   };
