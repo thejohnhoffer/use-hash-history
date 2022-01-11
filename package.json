@@ -20,12 +20,7 @@
     ".": "./build/index.js"
   },
   "files": [
-    "./build/index.js",
-    "./build/index.d.ts",
-    "./build/wrapper.js",
-    "./build/wrapper.d.ts",
-    "./build/transcoder.js",
-    "./build/transcoder.d.ts"
+    "build"
   ],
   "keywords": [
     "history",
