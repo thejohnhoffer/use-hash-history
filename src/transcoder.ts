@@ -1,43 +1,24 @@
-import type { Parser, WrapperOptions } from "./wrapper";
-
-type Pair = [string, string];
-
-interface UseParser {
-  (list: Parser[]): Parser;
-}
-
-export type TranscoderOptions = {
-  hashRoot?: string;
-  hashSlash?: string;
+const split = (oldRoot: string, newRoot: string, input: string) => {
+  const restIndex = input.indexOf(oldRoot) + oldRoot.length;
+  const first = input.substring(0, restIndex);
+  const isRelative = input.match(/^\.\.\//);
+  const rest = input.substring(restIndex);
+  return [isRelative ? first : newRoot, rest];
 };
 
-const transcoder = (root: Pair, slash: Pair, input: string) => {
-  const rest = input.substring(input.indexOf(root[0]) + root[0].length);
-  const prefix = input.match(/^\.\.\//) ? input.split(rest)[0] : root[1];
-  return prefix + rest.replaceAll(...slash);
-};
-
-const useParser: UseParser = (list) => {
-  const parser = (hash: string): string => {
-    return list.reduce((p, fn) => fn(p), hash);
+const transcoder = (oldRoot: string, newRoot: string) => {
+  return (oldSlash: string, newSlash: string) => {
+    return (input: string) => {
+      const [prefix, rest] = split(oldRoot, newRoot, input);
+      return prefix + rest.replaceAll(oldSlash, newSlash);
+    };
   };
-  return parser;
 };
 
-const useTranscoders = ({
-  hashRoot = "",
-  hashSlash = "/",
-}: TranscoderOptions): WrapperOptions => {
-  const encode = useParser([
-    (t) => transcoder(["/", hashRoot], ["/", hashSlash], t),
-  ]);
-  const decode = useParser([
-    (t) => transcoder([hashRoot, "/"], [hashSlash, "/"], t),
-  ]);
-
+const useTranscoders = ({ hashRoot = "", hashSlash = "/" }) => {
   return {
-    encode,
-    decode,
+    encode: transcoder("/", hashRoot)("/", hashSlash),
+    decode: transcoder(hashRoot, "/")(hashSlash, "/"),
   };
 };
 
