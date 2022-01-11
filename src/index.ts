@@ -1,175 +1,27 @@
-import { createHashHistory, createPath } from "history";
+import { createHashHistory } from "history";
+import { useTranscoders } from "./transcoder";
+import { useWrapper, inWrapper, getProperty } from "./wrapper";
 
-// Types
-import type {
-  To,
-  Path,
-  Hash,
-  Pathname,
-  Update,
-  History,
-  Listener,
-  Location,
-} from "history";
+import type { History } from "history";
 
-type VoidFn = () => void;
-type Pair = [string, string];
-type PathRenamer = (p: Pathname) => Pathname;
-type Hashable = Partial<Location> & { hash: Hash };
-type Pathable = Partial<Path> & { pathname: Pathname };
-export interface Parser {
-  (to: Location): Location;
-  (to: To): Pathable;
-}
-export interface UseParser {
-  (list: PathRenamer[]): Parser;
-}
-export interface GoAPI {
-  (to: To, state?: any): void;
-}
-export interface ListenAPI {
-  (listener: Listener): VoidFn;
-}
-
-export type WrapperOptions = {
-  decode: Parser;
-  encode: Parser;
-};
-
-export type TranscoderOptions = {
+export type HashOptions = {
+  window?: Window;
   hashRoot?: string;
   hashSlash?: string;
-};
-
-export type HashOptions = TranscoderOptions & {
-  window?: Window;
-};
-
-const createHref = (to: To | Location): Pathname => {
-  return typeof to === "string" ? to : createPath(to);
-};
-
-const isLocation = (to: To | Location): to is Location => {
-  const { key = null } = {
-    ...(typeof to === "object" ? to : {}),
-  };
-  return key !== null;
-};
-
-// Replace all / with custom slashes
-const useParser: UseParser = (list) => {
-  const replace: PathRenamer = (pathname) => {
-    return list.reduce((p, fn) => fn(p), pathname);
-  };
-  function parser(to: Location): Location;
-  function parser(to: To): Pathable;
-  function parser(to: To | Location) {
-    const pathname = replace(createHref(to));
-    return !isLocation(to)
-      ? { pathname }
-      : {
-          pathname,
-          key: to.key,
-          state: to.state,
-          search: "",
-          hash: "",
-        };
-  }
-  return parser;
-};
-
-const transcoder = (root: Pair, slash: Pair, input: string) => {
-  const rest = input.substring(input.indexOf(root[0]) + root[0].length);
-  const prefix = input.match(/^\.\.\//) ? input.split(rest)[0] : root[1];
-  return prefix + rest.replaceAll(...slash);
-};
-
-const useTranscoders = ({
-  hashRoot = "",
-  hashSlash = "/",
-}: TranscoderOptions): WrapperOptions => {
-  const encode = useParser([
-    (t) => transcoder(["/", hashRoot], ["/", hashSlash], t),
-  ]);
-  const decode = useParser([
-    (t) => transcoder([hashRoot, "/"], [hashSlash, "/"], t),
-  ]);
-
-  return {
-    encode,
-    decode,
-  };
-};
-
-const useWarnWrapper = (c: Console) => {
-  const w = c.warn;
-  return (fn: VoidFn) => {
-    c.warn = new Proxy(w, { apply: () => null });
-    c.warn = ((_) => w)(fn());
-  };
-};
-
-const useWrappers = ({ encode, decode }: WrapperOptions) => {
-  return {
-    wrapGo: (fn: GoAPI): GoAPI => {
-      return (to, state) => {
-        return fn(encode(to), state);
-      };
-    },
-    wrapListen: (fn: ListenAPI): ListenAPI => {
-      return (listener) => {
-        return fn(({ action, location }: Update) => {
-          listener({
-            action,
-            location: decode(location),
-          });
-        });
-      };
-    },
-  };
 };
 
 const useHashHistory = ({
   window = document.defaultView!,
   ...config
 }: HashOptions = {}): History => {
-  const core = useWrappers(useTranscoders(config));
-  const history = createHashHistory({ window });
-  const wrapGo = new Proxy(core.wrapGo, {
-    apply: (go, _, [fn]) => {
-      return go((to, state) => {
-        useWarnWrapper(console)(() => fn(to, state));
-      });
+  const core = useWrapper(useTranscoders(config));
+  const windowProxy = new Proxy(window, {
+    get: (_, prop) => {
+      const v = getProperty(window, prop);
+      return inWrapper(prop) ? core[prop](v) : v;
     },
   });
-
-  return new Proxy(history, {
-    get: (target, prop, _) => {
-      switch (prop) {
-        case "push":
-          return wrapGo(target.push);
-        case "replace":
-          return wrapGo(target.replace);
-        case "listen":
-          return core.wrapListen(target.listen);
-        default:
-          return Reflect.get(target, prop, _);
-      }
-    },
-  });
+  return createHashHistory({ window: windowProxy });
 };
 
-const useHashParser = (options: TranscoderOptions) => {
-  const { decode } = useTranscoders(options);
-  return (path: Hashable) => {
-    return decode(path.hash.slice(1));
-  };
-};
-
-export {
-  useParser,
-  useWrappers,
-  useTranscoders,
-  useHashHistory,
-  useHashParser,
-};
+export { useTranscoders, useHashHistory };

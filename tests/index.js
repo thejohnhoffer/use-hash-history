@@ -69,14 +69,16 @@ const testUseHistory = (key, options) => {
   });
 
   TestUseHistory(`push ../test`, async () => {
-    const result = await updatePathname({
-      fn: history.push,
-      listen: history.listen,
-      input: "../test",
+    const { warning, result } = await ENV.warn(() => {
+      return updatePathname({
+        fn: history.push,
+        listen: history.listen,
+        input: "../test",
+      });
     });
+    assert.is(warning.length, 1);
     assert.is(result, "../test");
   });
-
   return TestUseHistory;
 };
 
