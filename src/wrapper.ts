@@ -4,10 +4,20 @@ export interface Parser {
   (to: string): string;
 }
 
-type WrapperOptions = {
-  decode: Parser;
-  encode: Parser;
+export type DefaultPath = {
+  pathname?: string;
+  search?: string;
 };
+
+type EncodeOptions = {
+  encode: Parser;
+  defaultPath?: DefaultPath;
+};
+
+type WrapperOptions = EncodeOptions & {
+  decode: Parser;
+};
+
 type StateArgs = [any, string, (URL | string)?];
 type StateFunction = (..._: StateArgs) => unknown;
 type Scope = Partial<Omit<Window, number> & History>;
@@ -42,7 +52,8 @@ function inHistoryWrapper(x: string | symbol): boolean {
   );
 }
 
-const makeArgsEncoder = (encode: Parser) => {
+const makeArgsEncoder = ({ encode, ...config }: EncodeOptions) => {
+  const { defaultPath = {} } = config;
   return (fn: StateFunction) => {
     return (...[_s, _t, url]: StateArgs) => {
       if (!url) {
@@ -50,13 +61,20 @@ const makeArgsEncoder = (encode: Parser) => {
       }
       const path = parsePath((url || "").toString());
       const hash = parse(encode, path.hash);
-      return fn(_s, _t, createPath({ ...path, hash }));
+      return fn(
+        _s,
+        _t,
+        createPath({
+          ...defaultPath,
+          hash,
+        })
+      );
     };
   };
 };
 
-const useWrapper = ({ encode, decode }: WrapperOptions) => {
-  const encodeArgs = makeArgsEncoder(encode);
+const useWrapper = ({ encode, decode, ...config }: WrapperOptions) => {
+  const encodeArgs = makeArgsEncoder({ encode, ...config });
 
   return {
     history: (globalHistory: History): History => {
