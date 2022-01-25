@@ -45,6 +45,9 @@ function inHistoryWrapper(x: string | symbol): boolean {
 const makeArgsEncoder = (encode: Parser) => {
   return (fn: StateFunction) => {
     return (...[_s, _t, url]: StateArgs) => {
+      if (!url) {
+        return fn(_s, _t, url);
+      }
       const path = parsePath((url || "").toString());
       const hash = parse(encode, path.hash);
       return fn(_s, _t, createPath({ ...path, hash }));
