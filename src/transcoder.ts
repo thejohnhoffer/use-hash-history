@@ -1,3 +1,11 @@
+import type { DefaultPath } from "./wrapper";
+
+export type TranscoderOptions = {
+  hashRoot?: string;
+  hashSlash?: string;
+  defaultPath?: DefaultPath;
+};
+
 const split = (oldRoot: string, newRoot: string, input: string) => {
   const restIndex = input.indexOf(oldRoot) + oldRoot.length;
   const first = input.substring(0, restIndex);
@@ -15,10 +23,15 @@ const transcoder = (oldRoot: string, newRoot: string) => {
   };
 };
 
-const useTranscoders = ({ hashRoot = "", hashSlash = "/" }) => {
+const useTranscoders = ({
+  hashRoot = "",
+  hashSlash = "/",
+  ...config
+}: TranscoderOptions) => {
   return {
     encode: transcoder("/", hashRoot)("/", hashSlash),
     decode: transcoder(hashRoot, "/")(hashSlash, "/"),
+    ...config,
   };
 };
 
