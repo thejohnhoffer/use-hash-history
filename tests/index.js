@@ -34,11 +34,10 @@ const updatePathname = async ({ fn, listen, input }) => {
 
 const testUseHistory = (key, options) => {
   const TestUseHistory = suite(`test ${key} history listener`);
-  let history;
 
   TestUseHistory.before.each(ENV.reset);
   TestUseHistory.before.each(() => {
-    history = useHashHistory(options);
+    global.history = useHashHistory(options);
   });
 
   TestUseHistory.after.each(() => {
