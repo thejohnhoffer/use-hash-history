@@ -14,6 +14,7 @@ specifiers:
   hastscript: ^7.0.2
   history: ^5.2.0
   linkedom: ^0.13.0
+  linkedom-history: ^1.0.1
   prettier: ^2.5.1
   react: ^18.0.0-rc.0
   react-dom: ^18.0.0-rc.0
@@ -37,6 +38,7 @@ devDependencies:
   hastscript: 7.0.2
   history: 5.2.0
   linkedom: 0.13.0
+  linkedom-history: 1.0.1_4788882ae27cc271cfb171ed923a8e6a
   prettier: 2.5.1
   react: 18.0.0-rc.0-next-fe905f152-20220107
   react-dom: 18.0.0-rc.0-next-fe905f152-20220107_e32785dbcafa2fde92a71a8f50f52ce6
@@ -1577,6 +1579,20 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+    dev: true
+
+  /linkedom-history/1.0.1_4788882ae27cc271cfb171ed923a8e6a:
+    resolution: {integrity: sha512-kxKqg85LwdHheWkKL1rUNNIMwsa5IfWh07bU/AigpNpT8NbCGVbyCb3WKBQzx9tNFTRWKHw0u3lRY1b5RwQCYA==}
+    peerDependencies:
+      history: 5.x
+      linkedom: ^0.13
+    dependencies:
+      '@testing-library/react': 13.0.0-alpha.5_88bc4fee344d9ebe6e1abd431fb36b31
+      history: 5.2.0
+      linkedom: 0.13.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
     dev: true
 
   /linkedom/0.13.0:

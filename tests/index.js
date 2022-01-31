@@ -34,15 +34,12 @@ const updatePathname = async ({ fn, listen, input }) => {
 
 const testUseHistory = (key, options) => {
   const TestUseHistory = suite(`test ${key} history listener`);
-  let history;
 
-  // Create and clean the DOM
   TestUseHistory.before.each(ENV.reset);
   TestUseHistory.before.each(() => {
-    history = useHashHistory(options);
+    global.history = useHashHistory(options);
   });
 
-  // Test window location at every step
   TestUseHistory.after.each(() => {
     const { hashRoot = "" } = options;
     const historyHref = createPath(history.location);
@@ -82,7 +79,6 @@ const testUseHistory = (key, options) => {
   return TestUseHistory;
 };
 
-// Run the tests
 [
   testExample("default", {}),
   testExample("#a=1#b=2", {
