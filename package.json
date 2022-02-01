@@ -1,6 +1,6 @@
 {
   "name": "use-hash-history",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A history hook for react-router-dom",
   "scripts": {
     "lint": "eslint src",
