@@ -13,7 +13,7 @@ specifiers:
   hastscript: ^7.0.2
   history: ^5.2.0
   linkedom: ^0.13.0
-  linkedom-history: ^1.0.1
+  linkedom-history: ^1.1.2
   prettier: ^2.5.1
   react: ^18.0.0-rc.0
   react-dom: ^18.0.0-rc.0
@@ -36,7 +36,7 @@ devDependencies:
   hastscript: 7.0.2
   history: 5.2.0
   linkedom: 0.13.0
-  linkedom-history: 1.0.1_4788882ae27cc271cfb171ed923a8e6a
+  linkedom-history: 1.1.2_4788882ae27cc271cfb171ed923a8e6a
   prettier: 2.5.1
   react: 18.0.0-rc.0-next-fe905f152-20220107
   react-dom: 18.0.0-rc.0-next-fe905f152-20220107_e32785dbcafa2fde92a71a8f50f52ce6
@@ -1574,8 +1574,8 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /linkedom-history/1.0.1_4788882ae27cc271cfb171ed923a8e6a:
-    resolution: {integrity: sha512-kxKqg85LwdHheWkKL1rUNNIMwsa5IfWh07bU/AigpNpT8NbCGVbyCb3WKBQzx9tNFTRWKHw0u3lRY1b5RwQCYA==}
+  /linkedom-history/1.1.2_4788882ae27cc271cfb171ed923a8e6a:
+    resolution: {integrity: sha512-niy6xgMdOIM5br1NnI5TtjSTlE/EgNNoPgeVUlzh96ZIZIn+wuD86BLU50AOw1Rts4FlmaptF32tPbgJT/0gCQ==}
     peerDependencies:
       history: 5.x
       linkedom: ^0.13

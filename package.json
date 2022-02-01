@@ -44,7 +44,7 @@
     "hastscript": "^7.0.2",
     "history": "^5.2.0",
     "linkedom": "^0.13.0",
-    "linkedom-history": "^1.0.1",
+    "linkedom-history": "^1.1.2",
     "prettier": "^2.5.1",
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
