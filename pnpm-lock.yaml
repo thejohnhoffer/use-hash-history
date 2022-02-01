@@ -9,7 +9,6 @@ specifiers:
   '@typescript-eslint/parser': ^5.9.1
   '@vitejs/plugin-react': ^1.1.4
   eslint: ^8.6.0
-  esm: ^3.2.25
   hast-util-to-html: ^8.0.3
   hastscript: ^7.0.2
   history: ^5.2.0
@@ -33,7 +32,6 @@ devDependencies:
   '@typescript-eslint/parser': 5.9.1_eslint@8.6.0+typescript@4.5.4
   '@vitejs/plugin-react': 1.1.4
   eslint: 8.6.0
-  esm: 3.2.25
   hast-util-to-html: 8.0.3
   hastscript: 7.0.2
   history: 5.2.0
@@ -1181,11 +1179,6 @@ packages:
       v8-compile-cache: 2.3.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /esm/3.2.25:
-    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
-    engines: {node: '>=6'}
     dev: true
 
   /espree/9.3.0:
