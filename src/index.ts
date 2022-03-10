@@ -1,8 +1,8 @@
 import { createHashHistory } from "history";
-import { useTranscoders } from "./transcoder";
-import { useWrapper, inWrapper, getProperty } from "./wrapper";
+import { useTranscoders } from "./transcoder.js";
+import { useWrapper, inWrapper, getProperty } from "./wrapper.js";
 
-import type { TranscoderOptions } from "./transcoder";
+import type { TranscoderOptions } from "./transcoder.js";
 import type { History } from "history";
 
 export type HashOptions = TranscoderOptions & {

@@ -1,4 +1,4 @@
-import type { DefaultPath } from "./wrapper";
+import type { DefaultPath } from "./wrapper.js";
 
 export type TranscoderOptions = {
   hashRoot?: string;
